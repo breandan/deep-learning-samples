@@ -14,10 +14,9 @@ import java.util.*;
 public class MnistPretrained {
     public static void main(String[] args) throws IOException, InterruptedException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        MultiLayerNetwork lenet = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("lecun_mnist").getFile()));
-        MultiLayerNetwork mlp1 = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("mlp1_mnist").getFile()));
-        MultiLayerNetwork mlp2 = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("mlp2_mnist").getFile()));
-        MultiLayerNetwork sae = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("sae_mnist").getFile()));
+        MultiLayerNetwork lenet = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("lenet_mnist.zip").getFile()));
+        MultiLayerNetwork mlp1 = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("mlp1_mnist.zip").getFile()));
+        MultiLayerNetwork mlp2 = ModelSerializer.restoreMultiLayerNetwork(new File(classLoader.getResource("mlp2_mnist.zip").getFile()));
 
         List<String> labels = new ArrayList<>(10);
         for(int i = 0; i < 10; i++) {
