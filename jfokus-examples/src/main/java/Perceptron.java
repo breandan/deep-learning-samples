@@ -2,9 +2,19 @@ import java.util.Arrays;
 
 public class Perceptron {
     public static void main(String[] args) {
-        double[][] values = new double[][]{{0, 0, 0},{1, 1, 1}, {2, 1, 0}};
+        double[][] data = new double[][]{{0, 0, 0},{1, 1, 1}, {2, 1, 0}};
         double[] weights = new double[]{0, 0, 0};
+        train(data, weights);
 
+        System.out.println(classify(new double[]{0, 0}, weights));
+        System.out.println(classify(new double[]{0, 1}, weights));
+        System.out.println(classify(new double[]{2, 1}, weights));
+        System.out.println(classify(new double[]{1, 1}, weights));
+
+        System.out.println(Arrays.toString(weights));
+    }
+
+    private static void train(double[][] values, double[] weights) {
         //Training
         for(int e = 0; e < 100; e++) {
             double totalError = 0;
@@ -23,13 +33,6 @@ public class Perceptron {
             if(totalError == 0)
                 break;
         }
-
-        System.out.println(classify(new double[]{0, 0}, weights));
-        System.out.println(classify(new double[]{0, 1}, weights));
-        System.out.println(classify(new double[]{2, 1}, weights));
-        System.out.println(classify(new double[]{1, 1}, weights));
-
-        System.out.println(Arrays.toString(weights));
     }
 
     private static double classify(double[] value, double[] weights) {

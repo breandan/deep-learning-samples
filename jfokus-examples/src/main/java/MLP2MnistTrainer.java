@@ -73,9 +73,9 @@ public class MLP2MnistTrainer {
         log.info("***** Example Complete *****");
     }
 
-    public static void train(MultiLayerNetwork model,
-                             DataSetIterator train,
-                             DataSetIterator test) throws IOException {
+    private static void train(MultiLayerNetwork model,
+                              DataSetIterator train,
+                              DataSetIterator test) throws IOException {
         //Save the model
         File locationToSave = new File("jfokus-examples/src/main/resources/mlp1_mnist.zip");
         //Where to save the network. Note: the file is in .zip format - can be opened externally
