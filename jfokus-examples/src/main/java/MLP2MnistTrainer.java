@@ -60,7 +60,7 @@ public class MLP2MnistTrainer {
         MultiLayerNetwork mlpNet = new MultiLayerNetwork(conf);
         mlpNet.init();
 
-        train(mlpNet, mnistTrain, mnistTest);
+        LenetMnistTrainer.train(mlpNet, mnistTrain, mnistTest);
         printStats(mnistTest, mlpNet);
     }
 
@@ -71,36 +71,5 @@ public class MLP2MnistTrainer {
         log.info(evaluation.stats());
 
         log.info("***** Example Complete *****");
-    }
-
-    private static void train(MultiLayerNetwork model,
-                              DataSetIterator train,
-                              DataSetIterator test) throws IOException {
-        //Save the model
-        File locationToSave = new File("jfokus-examples/src/main/resources/mlp1_mnist.zip");
-        //Where to save the network. Note: the file is in .zip format - can be opened externally
-        boolean saveUpdater = true;
-        //Updater: i.e., the state for Momentum, RMSProp, Adagrad etc.
-        //Save this if you want to train your network more in the future
-
-        log.info("Train model....");
-        model.setListeners(new ScoreIterationListener(1));
-        for (int i = 0; i < numEpochs; i++) {
-            model.fit(train);
-            log.info("*** Completed epoch {} ***", i);
-
-            log.info("Evaluate model....");
-            Evaluation eval = new Evaluation(outputNum);
-            while (test.hasNext()) {
-                DataSet ds = test.next();
-                INDArray output = model.output(ds.getFeatureMatrix(), false);
-                eval.eval(ds.getLabels(), output);
-            }
-
-            ModelSerializer.writeModel(model, locationToSave, saveUpdater);
-
-            log.info(eval.stats());
-            test.reset();
-        }
     }
 }
