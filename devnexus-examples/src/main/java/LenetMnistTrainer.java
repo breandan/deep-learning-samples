@@ -128,7 +128,7 @@ public class LenetMnistTrainer {
                              DataSetIterator train,
                              DataSetIterator test) throws IOException {
         //Save the model
-        File locationToSave = new File("jfokus-examples/src/main/resources/lenet_mnist.zip");
+        File locationToSave = new File("devnexus-examples/src/main/resources/lenet_mnist.zip");
         //Where to save the network. Note: the file is in .zip format - can be opened externally
         boolean saveUpdater = true;
         //Updater: i.e., the state for Momentum, RMSProp, Adagrad etc.
