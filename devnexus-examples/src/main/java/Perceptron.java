@@ -14,18 +14,18 @@ public class Perceptron {
         System.out.println(Arrays.toString(weights));
     }
 
-    private static void train(double[][] values, double[] weights) {
+    private static void train(double[][] data, double[] weights) {
         //Training
         for(int e = 0; e < 100; e++) {
             double totalError = 0;
 
-            for (double[] value : values) {
-                double actual = value[2];
-                double error = actual - classify(value, weights);
+            for (double[] values : data) {
+                double actual = values[2];
+                double error = actual - classify(values, weights);
                 totalError += Math.abs(error);
                 weights[0] += error * 1;
                 for (int i = 1; i < weights.length; i++) {
-                    weights[i] += error * value[i-1];
+                    weights[i] += error * values[i-1];
                 }
             }
             System.out.println("Total error: " + totalError);

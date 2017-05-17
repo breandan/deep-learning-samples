@@ -8,19 +8,18 @@ import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
-import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
-import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.activations.Activation;
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction;
+
+/**
+ * A multi-layer perceptron with a single hidden layer.
+ */
 
 public class MLP1MnistTrainer {
     private static final Logger log = LoggerFactory.getLogger(MLP1MnistTrainer.class);
@@ -30,15 +29,14 @@ public class MLP1MnistTrainer {
 
     public static void main(String[] args) throws IOException {
         log.info("Load data....");
-        DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, true, 12345);
-        DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, true, 12345);
+        DataSetIterator train = new MnistDataSetIterator(batchSize, true, 12345);
+        DataSetIterator test = new MnistDataSetIterator(batchSize, true, 12345);
 
         //----------------------------------
         //Create network configuration and conduct network training
         MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
             .seed(12345)
             .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
-            .iterations(1)
             .learningRate(0.006)
             .updater(Updater.NESTEROVS).momentum(0.9)
             .regularization(true).l2(1e-4)
@@ -58,19 +56,10 @@ public class MLP1MnistTrainer {
             .pretrain(false).backprop(true)
             .build();
 
-        MultiLayerNetwork mlpNet = new MultiLayerNetwork(conf);
-        mlpNet.init();
+        MultiLayerNetwork mlp1Net = new MultiLayerNetwork(conf);
+        mlp1Net.init();
 
-        LenetMnistTrainer.train(mlpNet, mnistTrain, mnistTest);
-        printStats(mnistTest, mlpNet);
-    }
-
-    private static void printStats(DataSetIterator mnistTest, MultiLayerNetwork net) {
-        //Perform evaluation (distributed)
-        Evaluation evaluation = net.evaluate(mnistTest);
-        log.info("***** Evaluation *****");
-        log.info(evaluation.stats());
-
-        log.info("***** Example Complete *****");
+        Trainer.train(mlp1Net, train, test, "mlp1_mnist.zip");
+        Trainer.printStats(test, mlp1Net);
     }
 }
